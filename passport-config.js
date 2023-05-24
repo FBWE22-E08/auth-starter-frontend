@@ -2,6 +2,7 @@
 // to use the passport-jwt stategy
 
 import passportJwt from "passport-jwt";
+import User from "./models/User.js";
 
 export function configureJwtStrategy(passport) {
   // passport.use() takes 2 arguments
@@ -12,12 +13,13 @@ export function configureJwtStrategy(passport) {
       // how to validate the token
       {
         secretOrKey: process.env.JWT_SECRET,
-        jwtFromRequest: passportJwt.ExtractJwt.fromAuthHeaderAsBearerToken(),
+        jwtFromRequest: (req) => req.cookies.jwt,
       },
-      (jwtPayload, done) => {
+      async (jwtPayload, done) => {
+        const user = await User.findById(jwtPayload.sub);
         // this function is for manually validating the token
         console.log(jwtPayload);
-        return done(null, {}); // skipping manual validation
+        return done(null, user); // skipping manual validation
       }
     )
   );

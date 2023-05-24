@@ -70,12 +70,38 @@ export const loginUser = async(req, res) => {
     const token = generateToken(user);
 
     //if authorized : send back a token 
-    return res.status(StatusCodes.OK).json({message:'Welcome to the system', token});
+         // send httpOnly 🍪
+         return res
+         .status(200) //everything went okay 
+         .cookie("jwt", token, {  //ESSENTIAL cookie --> keep track of who is signed in. (storing token)
+           httpOnly: true, //no scripting languages can access this cookie
+           secure: false, //cookie can only be sent over https SSL/TLS, --> encrypted connection with server
+           sameSite: "lax", //not allowing cookie over cross-site request (when loading images)
+         })
+         .json({
+           message: "Login successful",
+           // we are sending the user as an object with only selected keys
+           user: { username: user.userName }, // later I might want to send more keys here
+         });
 
 
   } catch (error) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message:error.toString()})
   }
 }
+/**
+ * Controller method to logout user
+ * @param {*} req 
+ * @param {*} res 
+ */
+export const logoutUser = (req, res) => {
+  res
+    .clearCookie("jwt", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false,
+    })
+    .send("User is logged out");
+};
 
 export default {createUser, loginUser}

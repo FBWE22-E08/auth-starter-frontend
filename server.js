@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import passport from "passport";
+import cookieParser from 'cookie-parser';
 
 //import routes
 import userRoutes from "./routes/userRoutes.js";
@@ -13,6 +14,9 @@ import { configureJwtStrategy } from "./passport-config.js";
 dotenv.config();
 
 const app = express();
+//middleware to parse cookies and add those cookies to req.cookies
+app.use(cookieParser());
+
 configureJwtStrategy(passport);
 
 //allows us to parse json information from http body to req.body

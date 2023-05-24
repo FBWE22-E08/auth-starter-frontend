@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, listUsers, loginUser } from '../controllers/userController.js';
+import { createUser, listUsers, loginUser, logoutUser } from '../controllers/userController.js';
 
 const router = express.Router();
 
@@ -23,5 +23,8 @@ router.post('/create',createUser);
 // 	"password": "testing123",
 // }
 router.post('/login', loginUser)
+
+// GET http://localhost:3001/api/user/logout
+router.get('/logout', logoutUser);
 
 export default router;
