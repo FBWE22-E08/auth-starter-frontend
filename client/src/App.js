@@ -4,6 +4,7 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import './App.css';
 import { Header } from './components/Header/Header';
 import { LoginView } from './views/LoginView/LoginView';
+import { ProductView } from './views/ProductView/ProductView';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
            <Routes>
                <Route path="/" element={<p>Test</p>} />
                <Route path="/login" element={<LoginView />} />
+               <Route path="/products" element={<ProductView />} />
            </Routes>
        </BrowserRouter>
     </div>

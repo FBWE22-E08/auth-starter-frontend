@@ -1,5 +1,6 @@
 import React from 'react'
-import axios from 'axios';
+import axios from '../../util/axiosInstance';
+
 export const LoginView = () => {
 
   const handleSubmit = async(event) => {
@@ -14,7 +15,7 @@ export const LoginView = () => {
 
       try {
 
-        const res = await axios.post('http://localhost:3001/api/users/login', data, {withCredentials:true})
+        const res = await axios.post('/api/users/login', data)
 
         console.log(res.data);
         
